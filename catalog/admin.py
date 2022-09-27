@@ -4,6 +4,8 @@ from .models import Author, Genre, Book, BookInstance
 # admin.site.register(Book)
 # admin.site.register(Author)
 admin.site.register(Genre)
+
+
 # admin.site.register(BookInstance)
 
 class AuthorAdmin(admin.ModelAdmin):
@@ -24,8 +26,10 @@ class AuthorAdmin(admin.ModelAdmin):
 # Register the admin class with the associated model
 admin.site.register(Author, AuthorAdmin)
 
+
 class BooksInstanceInline(admin.TabularInline):
     model = BookInstance
+
 
 # class BookAdmin(admin.ModelAdmin):
 #     list_display = ('title', 'author', 'display_genre')
@@ -34,6 +38,7 @@ class BooksInstanceInline(admin.TabularInline):
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'display_genre')
     inlines = [BooksInstanceInline]
+
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
