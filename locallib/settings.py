@@ -22,8 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-from djangoKey import *
-SECRET_KEY = get_random_secret_key()
+SECRET_KEY = "qeqwdsDQA@#I4oLQ#;y4eU4123"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
