@@ -10,7 +10,7 @@ class AuthorListViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         #Create 13 authors for pagination tests
-        number_of_authors = 13
+        number_of_authors = 1
         for author_num in range(number_of_authors):
             Author.objects.create(first_name='Christian %s' % author_num, last_name = 'Surname %s' % author_num,)
 
@@ -62,7 +62,7 @@ class LoanedBookInstancesByUserListViewTest(TestCase):
         # Создание книги
         test_author = Author.objects.create(first_name='John', last_name='Smith')
         test_genre = Genre.objects.create(name='Fantasy')
-        test_book = Book.objects.create(title='Book Title', summary = 'My book summary', isbn='ABCDEFG', author=test_author, language=test_language)
+        test_book = Book.objects.create(title='Book Title', summary = 'My book summary', isbn='ABCDEFG', author=test_author)
         # Create genre as a post-step
         genre_objects_for_book = Genre.objects.all()
         test_book.genre.set(genre_objects_for_book) # Присвоение типов many-to-many напрямую недопустимо
@@ -114,8 +114,7 @@ class RenewBookInstancesViewTest(TestCase):
         #Создание книги
         test_author = Author.objects.create(first_name='John', last_name='Smith')
         test_genre = Genre.objects.create(name='Fantasy')
-        test_language = Language.objects.create(name='English')
-        test_book = Book.objects.create(title='Book Title', summary = 'My book summary', isbn='ABCDEFG', author=test_author, language=test_language,)
+        test_book = Book.objects.create(title='Book Title', summary = 'My book summary', isbn='ABCDEFG', author=test_author)
         #Создание жанра Create genre as a post-step
         genre_objects_for_book = Genre.objects.all()
         test_book.genre=genre_objects_for_book
