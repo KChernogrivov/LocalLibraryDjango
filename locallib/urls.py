@@ -31,6 +31,9 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 handler404 = "locallib.views.page_not_found"
+
 
 static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
