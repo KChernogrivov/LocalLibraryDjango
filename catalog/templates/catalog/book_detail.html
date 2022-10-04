@@ -9,7 +9,7 @@
   <p><strong>Language:</strong> {{ book.lang }}</p>
   <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
   <p><strong>Cover:</strong></p>
-  <img src="{{ book.cover.url }}" alt="cover" style="width: 600px; height: 700px;">
+  <img src="{{ book.cover.url }}" alt="cover" style="width: 700px; height: 500px;">
   <p><details><summary><h3 style="text-decoration:underline">Preview: </h3></summary> {{ book.preview  }}</details></p>
 
   <div style="margin-left:20px;margin-top:20px">
