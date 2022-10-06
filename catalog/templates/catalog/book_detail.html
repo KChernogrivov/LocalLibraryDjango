@@ -2,7 +2,6 @@
 
 {% block content %}
   <h1>Title: {{ book.title }}</h1>
-
   <p><strong>Author:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></p>
   <p><strong>Summary:</strong> {{ book.summary }}</p>
   <p><strong>ISBN:</strong> {{ book.isbn }}</p>
@@ -10,7 +9,14 @@
   <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
   <p><strong>Cover:</strong></p>
   <img src="{{ book.cover.url }}" alt="cover" style="width: 700px; height: 500px;">
-  <p><details><summary><h3 style="text-decoration:underline">Preview: </h3></summary> {{ book.preview  }}</details></p>
+  <details>
+    <summary>
+      <h3>Preview</h3>
+    </summary>
+    {% for value in preview %}
+      <p>{{ value }}</p>
+    {% endfor %}
+  </details>
 
   <div style="margin-left:20px;margin-top:20px">
     <h4>Copies</h4>
