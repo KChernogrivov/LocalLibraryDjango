@@ -52,13 +52,10 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     model = Book
 
-    pdf_document = "media/pdf/warAndPeace.pdf"
+    pdf_document = "media/pdf/WarAndPeace.pdf"
     pdf_file = fitz.open(pdf_document)
-    pdfCountPage = pdf_file.pages()
     pdf_file.select(range(10))
-    pdf_file.save("media/pdf/warAndPeace" + "Trim" + ".pdf", garbage=3)
-
-    extra_context = {'preview': "../../media/pdf/warAndPeace" + "Trim" + ".pdf"}
+    pdf_file.save("media/pdf/WarAndPeace" + "Trim" + ".pdf", garbage=3)
 
 
 
