@@ -9,14 +9,7 @@
   <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
   <p><strong>Cover:</strong></p>
   <img src="{{ book.cover.url }}" alt="cover" style="width: 700px; height: 500px;">
-  <details>
-    <summary>
-      <h3>Preview</h3>
-    </summary>
-    {% for value in preview %}
-      <p>{{ value }}</p>
-    {% endfor %}
-  </details>
+  <h3><a href="{{ preview }}">Preview</a></h3>
 
   <div style="margin-left:20px;margin-top:20px">
     <h4>Copies</h4>

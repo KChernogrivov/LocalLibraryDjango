@@ -53,6 +53,7 @@ class Book(models.Model):
         """
         return reverse('book-detail', args=[str(self.id)])
 
+
 import uuid # Required for unique book instances
 
 class BookInstance(models.Model):
