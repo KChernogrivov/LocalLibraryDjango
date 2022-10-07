@@ -26,8 +26,8 @@ def index(request):
     num_books = Book.objects.all().count()
     num_instances = BookInstance.objects.all().count()
     # Доступные книги (статус = 'a')
-    num_instances_available=BookInstance.objects.filter(status__exact='a').count()
-    num_authors=Author.objects.count()  # Метод 'all()' применён по умолчанию.
+    num_instances_available = BookInstance.objects.filter(status__exact='a').count()
+    num_authors = Author.objects.count()  # Метод 'all()' применён по умолчанию.
 
     # Number of visits to this view, as counted in the session variable.
     num_visits = request.session.get('num_visits', 0)
@@ -42,8 +42,6 @@ def index(request):
     )
 
 
-
-
 class BookListView(generic.ListView):
     model = Book
     paginate_by = 1
@@ -52,11 +50,13 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     model = Book
 
-    pdf_document = "media/pdf/WarAndPeace.pdf"
-    pdf_file = fitz.open(pdf_document)
-    pdf_file.select(range(10))
-    pdf_file.save("media/pdf/WarAndPeace" + "Trim" + ".pdf", garbage=3)
+    for el in Book.objects.all().values():
+        pdf_name = (el['preview'])
 
+        pdf_document = "media/" + pdf_name
+        pdf_file = fitz.open(pdf_document)
+        pdf_file.select(range(10))
+        pdf_file.save("media/previews/" + pdf_name, garbage=3)
 
 
 class AuthorListView(generic.ListView):
@@ -68,16 +68,17 @@ class AuthorDetailView(generic.DetailView):
     model = Author
 
 
-class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
     """
     Generic class-based view listing books on loan to current user.
     """
     model = BookInstance
-    template_name ='catalog/bookinstance_list_borrowed_user.html'
+    template_name = 'catalog/bookinstance_list_borrowed_user.html'
     paginate_by = 10
 
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
 
 class LoanedBooksAllListView(LoginRequiredMixin, generic.ListView):
     model = BookInstance
@@ -85,7 +86,7 @@ class LoanedBooksAllListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 1
 
     def get_queryset(self):
-            return BookInstance.objects.filter(status__exact='o').order_by('due_back')
+        return BookInstance.objects.filter(status__exact='o').order_by('due_back')
 
 
 @permission_required('catalog.can_mark_returned')
@@ -108,14 +109,15 @@ def renew_book_librarian(request, pk):
             book_inst.save()
 
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('all-borrowed') )
+            return HttpResponseRedirect(reverse('all-borrowed'))
 
     # If this is a GET (or any other method) create the default form.
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
+        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date, })
 
-    return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+    return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst': book_inst})
+
 
 class AuthorCreate(CreateView):
     model = Author
@@ -123,21 +125,26 @@ class AuthorCreate(CreateView):
     initial = {'date_of_death': '12/10/2016', }
     permission_required = 'catalog.can_mark_returned'
 
+
 class AuthorUpdate(UpdateView):
     model = Author
-    fields = ['first_name','last_name','date_of_birth','date_of_death']
+    fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
+
 
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
 
+
 class BookCreate(CreateView):
     model = Book
     fields = '__all__'
 
+
 class BookUpdate(UpdateView):
     model = Book
-    fields = ["title", 'author', 'lang', 'cover', 'summary', 'isbn', 'genre']
+    fields = ["title", 'author', 'lang', 'cover', 'preview','summary', 'isbn', 'genre']
+
 
 class BookDelete(DeleteView):
     model = Book
